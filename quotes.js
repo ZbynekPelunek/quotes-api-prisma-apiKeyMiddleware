@@ -1,50 +1,60 @@
-const express = require('express');
+const { Prisma, PrismaClient } = require("@prisma/client");
+const express = require("express");
 
-const { quotes } = require('./data');
-const { getRandomElement } = require('./utils');
+const prisma = new PrismaClient();
 
 const quotesRouter = express.Router();
 
 module.exports = quotesRouter;
 
-//GET random quote
-quotesRouter.get('/random', (req, res, next) => {
-    const randomQuote = getRandomElement(quotes);
-    res.send({
-        quote: randomQuote
-    });
-});
-
-//GET all quotes or quote base on author
-quotesRouter.get('/', (req, res, next) => {
-    const queryParams = req.query;
-    //check if the query params object is empty
-    if(queryParams && Object.keys(queryParams).length === 0 && queryParams.constructor === Object){
-        res.send({
-            quotes: quotes
-        });
-    //if not returns quote(s) base on the person query string
-    } else {
-        res.send({
-            quotes: quotes.filter(q => q.person === req.query.person)
-        });
-    }
-});
-
 //POST new quote
-quotesRouter.post('/', (req, res, next) => {
-    if(req.query.quote && req.query.person){
-        quotes.push({
-            quote: req.query.quote,
-            person: req.query.person
-        });
-        res.send({
-            quote: {
-                quote: req.query.quote,
-                person: req.query.person
-            }
-        });
-    }else{
-        res.status(400).send();
-    }
+quotesRouter.post("/add", async (req, res) => {
+	const { quote, person, year } = req.body;
+	try {
+		const result = await prisma.quotes.create({
+			data: {
+				quote: quote,
+				person: person,
+				year: year,
+			},
+		});
+		res.status(200).json(result);
+	} catch (err) {
+		console.log(err);
+		res.status(404).json({ err });
+	}
 });
+
+//GET all quotes
+quotesRouter.get("/all", async (req, res) => {
+	const searchString = req.query.person;
+
+	const quotes = await prisma.quotes.findMany({
+		where: { person: { contains: searchString } },
+	});
+
+	//console.log(quotes);
+	res.json(quotes);
+});
+
+//GET quote base on author
+quotesRouter.get("/", async (req, res) => {
+	const searchString = req.query.person || 'Anonymous';
+
+	const quotes = await prisma.quotes.findMany({
+		where: { person: { contains: searchString } },
+	});
+
+	//console.log(quotes);
+	res.json(quotes);
+});
+
+
+//GET random quote
+quotesRouter.get('/random', async (req, res, next) => {
+    const quote = await prisma.$queryRaw('SELECT * FROM "Quotes" q ORDER BY random() LIMIT 1;')
+    
+	//console.log(quote);
+	res.json(quote);
+});
+
