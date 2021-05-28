@@ -12,15 +12,22 @@
   <nav>
     <a href="index.html">Home</a>
     <a href="add-quote.html">Add a New Quote</a>
+    <a href="register.html">Register</a>
+    <a href="log-in.html">Log In</a>
   </nav>
   <h2>Add a New Quote</h2>
+  <div>
+    <label for="api-key">API KEY*:</label>
+    <input id="api-key" value="">
+  </div>
   <div class="inputs">
-    <label for="quote">Quote text:</label>
+    <label for="quote">Quote Text*:</label>
     <input id="quote" value="">
     <label for="person">Person:</label>
     <input id="person" value="">
     <label for="year">Year:</label>
     <input id="year" value="">
+    <p>*<i>Required</i></p>
   </div>
   <div>
     <button id="submit-quote">Submit Your Quote</button>

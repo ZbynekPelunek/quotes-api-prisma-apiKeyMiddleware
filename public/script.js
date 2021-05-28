@@ -23,8 +23,8 @@ const renderQuotes = async (quotes = []) => {
 			const newQuote = document.createElement("div");
 			newQuote.className = "single-quote";
 			newQuote.innerHTML = `<div class="quote-text">${quote.quote}</div>
-      <div class="attribution">- ${quote.person}</div>
-      <div class="year">~${quote.year}</div>`;
+			<div class="attribution">- ${quote.person}</div>
+			<div class="year">~${quote.year}</div>`;
 			quoteContainer.appendChild(newQuote);
 		});
 	} else {
@@ -48,25 +48,26 @@ fetchAllButton.addEventListener("click", async () => {
 fetchRandomButton.addEventListener("click", async () => {
 	const response = await fetch("/api/quotes/random");
 
-  if (response.ok) {
+ 	if (response.ok) {
 		const quote = await response.json();
-    console.log(response.status, response.statusText, quote);
-    await renderQuotes(quote);
+    	await renderQuotes(quote);
+		console.log(response.status, response.statusText, quote);
 	} else {
 		await renderError(response);
+		console.log(response.status, response.statusText);
 	}
-
 });
 
 fetchByAuthorButton.addEventListener("click", async () => {
 	const author = document.getElementById("author").value;
-	const response = await fetch(`/api/quotes?person=${author}`)
+	const response = await fetch(`/api/quotes?person=${author}`);
 
-  if (response.ok) {
+  	if (response.ok) {
 		const quotes = await response.json();
-    console.log(response.status, response.statusText, quotes);
-    await renderQuotes(quotes);
+    	await renderQuotes(quotes);
+		console.log(response.status, response.statusText, quotes);
 	} else {
 		await renderError(response);
+		console.log(response.status, response.statusText);
 	}
 });

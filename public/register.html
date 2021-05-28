@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>Quote API</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <h1>Quote API</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="add-quote.html">Add a New Quote</a>
+    <a href="register.html">Register</a>
+    <a href="log-in.html">Log In</a>
+  </nav>
+  <h2>Register for API KEY</h2>
+  <div class="inputs">
+    <label for="email">Email*:</label>
+    <input id="email" type="email" autocomplete="off" value="@">
+    <label for="password">Password*:</label>
+    <input id="password" type="password" autocomplete="off" value="12345">
+    <label for="firstName">First Name:</label>
+    <input id="firstName" value="">
+    <label for="lastName">Last Name:</label>
+    <input id="lastName" value="">
+    <p>*<i>Required</i></p>
+  </div>
+  <div>
+    <button id="register-button">Register</button>
+  </div>
+  <div id="register-response"></div>
+
+  <script src="register.js"></script>
+</body>
+</html>

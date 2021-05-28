@@ -7,10 +7,18 @@ const quotesRouter = express.Router();
 
 module.exports = quotesRouter;
 
+const API_KEY = process.env.API_KEY;
+
 //POST new quote
 quotesRouter.post("/add", async (req, res) => {
 	const { quote, person, year } = req.body;
+	const apiKey = req.header('x-api-key');
+
+	//console.log(`api key inside header: ${apiKey}`)
 	try {
+		if(apiKey !== API_KEY) throw 'Invalid API KEY';
+		if(quote === '') throw 'Quote text cannot be empty'
+
 		const result = await prisma.quotes.create({
 			data: {
 				quote: quote,
@@ -18,10 +26,11 @@ quotesRouter.post("/add", async (req, res) => {
 				year: year,
 			},
 		});
-		res.status(200).json(result);
+		res.status(201).json(result);
 	} catch (err) {
 		console.log(err);
-		res.status(404).json({ err });
+		if (err === 'Invalid API KEY') return res.status(403).json({ error: err });
+		res.status(400).json({ error: err });
 	}
 });
 

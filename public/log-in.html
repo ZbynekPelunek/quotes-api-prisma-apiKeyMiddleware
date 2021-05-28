@@ -15,24 +15,18 @@
     <a href="register.html">Register</a>
     <a href="log-in.html">Log In</a>
   </nav>
-  <h2>Get Quotes</h2>
-  <div class="request-buttons">
-    <div>
-      <button id="fetch-random">Fetch a Random Quote</button>
-      <button id="fetch-quotes">Fetch all Quotes</button>
-    </div>
-    <div>
-      <input id="author" value="">
-      <button id="fetch-by-author">Fetch by Author</button>
-    </div>
-    <div>
-      <label for="api-key">API KEY:</label>
-      <input id="api-key" value="">
-    </div>
+  <h2>Register for API KEY</h2>
+  <div class="inputs">
+    <label for="email">Email:</label>
+    <input id="email" type="email" autocomplete="off" value="test@test.test">
+    <label for="password">Password:</label>
+    <input id="password" type="password" autocomplete="off" value="12345">
   </div>
-  <div id="quote-container">
-    
+  <div>
+    <button id="login-button">Log In</button>
   </div>
-  <script src="script.js"></script>
+  <div id="login-response"></div>
+
+  <script src="log-in.js"></script>
 </body>
 </html>
