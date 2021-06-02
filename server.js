@@ -11,8 +11,8 @@ app.use(express.json());
 const quotesRouter = require('./quotes.js');
 app.use('/api/quotes', quotesRouter);
 
-const usersRouter = require('./users.js');
-app.use('/api/users', usersRouter);
+const keysRouter = require('./keys.js');
+app.use('/api/key', keysRouter);
 
 app.listen(PORT, () => {
     console.log('Server started and listening on port ' + PORT);

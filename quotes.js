@@ -2,21 +2,20 @@ const { Prisma, PrismaClient } = require("@prisma/client");
 const express = require("express");
 
 const prisma = new PrismaClient();
+const API = require('./middleware/apikeys');
 
 const quotesRouter = express.Router();
 
 module.exports = quotesRouter;
 
-const API_KEY = process.env.API_KEY;
-
 //POST new quote
-quotesRouter.post("/add", async (req, res) => {
+quotesRouter.post("/add", API.validateKey, async (req, res) => {
 	const { quote, person, year } = req.body;
-	const apiKey = req.header('x-api-key');
+	//const apiKey = req.header('x-api-key');
 
 	//console.log(`api key inside header: ${apiKey}`)
 	try {
-		if(apiKey !== API_KEY) throw 'Invalid API KEY';
+		//if(apiKey !== API_KEY) throw 'Invalid API KEY';
 		if(quote === '') throw 'Quote text cannot be empty'
 
 		const result = await prisma.quotes.create({
@@ -29,7 +28,7 @@ quotesRouter.post("/add", async (req, res) => {
 		res.status(201).json(result);
 	} catch (err) {
 		console.log(err);
-		if (err === 'Invalid API KEY') return res.status(403).json({ error: err });
+		//if (err === 'Invalid API KEY') return res.status(403).json({ error: err });
 		res.status(400).json({ error: err });
 	}
 });
